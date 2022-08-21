@@ -1,11 +1,11 @@
-<?php 
-
+<?php
 namespace App\Entity;
 
-class Medico 
+class Medico
 {
-  public $crm;
-  public $nome;
+    public $crm;
+    public $nome;
+
 }
 
 ?>
