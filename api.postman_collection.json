@@ -1,78 +1,47 @@
 {
 	"info": {
-		"_postman_id": "0186e750-ffa9-4a7f-8dfd-9d0de60b1e9c",
-		"name": "api",
+		"_postman_id": "f9da695f-de19-481b-b1ce-0b5b1294ea36",
+		"name": "New Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12784593"
+		"_exporter_id": "20131355"
 	},
 	"item": [
 		{
-			"name": "api-laravel",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "http://127.0.0.1:8000/api/clientes?nome=Fulano da silva&cpf_cnpj=18879599633",
+			"name": "New Request",
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"crm\": 123456,\r\n    \"nome\": \"Primeiro medico\"\r\n}"
+				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/clientes?nome=Fulano da silva&cpf_cnpj=18879599633",
+					"raw": "http://localhost/medicos",
 					"protocol": "http",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"localhost"
 					],
-					"port": "8000",
 					"path": [
-						"api",
-						"clientes"
-					],
-					"query": [
-						{
-							"key": "nome",
-							"value": "Fulano da silva"
-						},
-						{
-							"key": "cpf_cnpj",
-							"value": "18879599633"
-						}
+						"medicos"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:80/medicos",
+			"name": "http://localhost/medicos/",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"crm\": 951758,\r\n    \"nome\": \"Segundo médico\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "http://localhost:80/medicos",
+					"raw": "http://localhost/medicos/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
 					"path": [
-						"medicos"
+						"medicos",
+						""
 					]
 				}
 			},
