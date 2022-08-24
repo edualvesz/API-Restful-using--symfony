@@ -1,0 +1,82 @@
+{
+	"info": {
+		"_postman_id": "0186e750-ffa9-4a7f-8dfd-9d0de60b1e9c",
+		"name": "api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12784593"
+	},
+	"item": [
+		{
+			"name": "api-laravel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8000/api/clientes?nome=Fulano da silva&cpf_cnpj=18879599633",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/clientes?nome=Fulano da silva&cpf_cnpj=18879599633",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"clientes"
+					],
+					"query": [
+						{
+							"key": "nome",
+							"value": "Fulano da silva"
+						},
+						{
+							"key": "cpf_cnpj",
+							"value": "18879599633"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:80/medicos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"crm\": 951758,\r\n    \"nome\": \"Segundo médico\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:80/medicos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"medicos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
