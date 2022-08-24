@@ -13,10 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class MedicosController 
 {
     /**
-     * @var EntityMenagerInterface
+     * @var EntityManagerInterface
      */
 
-    public function __construct(EntityMenagerInterface $entityMenager)
+    public function __construct(EntityManagerInterface $entityMenager)
     {
       $this->entityManager = $entityMenager;
     }
@@ -35,7 +35,7 @@ class MedicosController
       $medico->nome = $dadosEmJson->nome;
 
       $this->entityManager->persist($medico);
-      $this->entityMenager->flush();
+      $this->entityManager->flush();
       // does a lot of database operations
 
       return new JsonResponse($medico);
