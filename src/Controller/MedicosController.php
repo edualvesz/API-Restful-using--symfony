@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 //use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
+
 class MedicosController extends AbstractController
 {
   
@@ -20,11 +21,11 @@ class MedicosController extends AbstractController
    * @var EntityManagerInterface
    */
   
-  public function __construct(EntityManagerInterface $entityMenager)
+  public function __construct(EntityManagerInterface $entityMenager, private ManagerRegistry $doctrine)
   {
     $this->entityManager = $entityMenager;
+    $this->doctrine = $doctrine;
   }
-  
   
   /**
    * @Route("/medicos", methods={"POST"})
@@ -58,17 +59,21 @@ class MedicosController extends AbstractController
   }
 
   /**
-   * @Route("/medicos/"(id)", methods={"GET"})
+   * @Route("/medicos/{id}", methods={"GET"})
    */
-
-  public function buscarUm(ManagerRegistry $doctrine, Request $request): Response
+  public function buscarUm(Request $request): Response
   {
-    $id = $request->get('id');
-    $repositorioDeMedicos = $doctrine->getRepository(Medico::class);
-    $medico = $repositorioDeMedicos->find($id);
+      $id = $request->get('id');
+      $repositorioDeMedicos = $this->doctrine->getRepository(Medico::class);
+      $medico = $repositorioDeMedicos->find($id);
+      $codigoRetorno = is_null($medico) ? Response::HTTP_NO_CONTENT : 200; //you can use ternary way or using "if" just like commented below 
+      // $codigoRetorno = 200;
+      // if (is_null($medico)) {
+      //   $codigoRetorno = Response :: HTTP_NO_CONTENT;
+      // }
 
-    return new JsonResponse($medico);
 
+      return new JsonResponse($medico, $codigoRetorno);
   }
 }
 ?>
