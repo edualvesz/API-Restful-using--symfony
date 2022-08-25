@@ -1,19 +1,19 @@
 {
 	"info": {
 		"_postman_id": "f9da695f-de19-481b-b1ce-0b5b1294ea36",
-		"name": "New Collection",
+		"name": "curso-api-symfony",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "20131355"
 	},
 	"item": [
 		{
-			"name": "New Request",
+			"name": "insere medicos",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"crm\": 123456,\r\n    \"nome\": \"Primeiro medico\"\r\n}"
+					"raw": "{\r\n    \"crm\": 332589,\r\n    \"nome\": \"Sexto medico\"\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost/medicos",
@@ -29,7 +29,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost/medicos/",
+			"name": "busca medicos",
 			"request": {
 				"method": "GET",
 				"header": [],

@@ -71,8 +71,6 @@ class MedicosController extends AbstractController
       // if (is_null($medico)) {
       //   $codigoRetorno = Response :: HTTP_NO_CONTENT;
       // }
-
-
       return new JsonResponse($medico, $codigoRetorno);
   }
 }
