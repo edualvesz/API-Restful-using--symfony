@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Medico;
+use App\Helper\MedicoFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,11 +21,23 @@ class MedicosController extends AbstractController
   /**
    * @var EntityManagerInterface
    */
+
+   /**
+    * @var MedicoFactory
+    */
+
+    private $medicoFactory;
   
-  public function __construct(EntityManagerInterface $entityMenager, private ManagerRegistry $doctrine)
+  public function __construct(
+    EntityManagerInterface $entityMenager, 
+    MedicoFactory $medicoFactory,
+    private ManagerRegistry $doctrine
+    )
+
   {
     $this->entityManager = $entityMenager;
     $this->doctrine = $doctrine;
+    $this->medicoFactory = $medicoFactory;
   }
   
   /**
@@ -33,11 +46,7 @@ class MedicosController extends AbstractController
   public function novo(Request $request): Response
   {
     $corpoRequisicao = $request->getContent();
-    $dadosEmJson = json_decode($corpoRequisicao);
-    
-    $medico = new Medico();
-    $medico->crm = $dadosEmJson->crm;
-    $medico->nome = $dadosEmJson->nome;
+    $medico = $this->medicoFactory->criarMedico($corpoRequisicao);
     
     $this->entityManager->persist($medico);
     $this->entityManager->flush();
@@ -45,7 +54,6 @@ class MedicosController extends AbstractController
     
     return new JsonResponse($medico);
   }
-  
   
   /**
    * @Route("/medicos", methods={"GET"})
@@ -63,14 +71,13 @@ class MedicosController extends AbstractController
    */
   public function buscarUm(int $id): Response
   {
-      $repositorioDeMedicos = $this->doctrine->getRepository(Medico::class);
-      $medico = $repositorioDeMedicos->find($id);
-      $codigoRetorno = is_null($medico) ? Response::HTTP_NO_CONTENT : 200; //you can use ternary way or using "if" just like commented below 
-      // $codigoRetorno = 200;
-      // if (is_null($medico)) {
-      //   $codigoRetorno = Response :: HTTP_NO_CONTENT;
-      // }
-      return new JsonResponse($medico, $codigoRetorno);
+    $medico = $this->buscaMedico($id);
+    $codigoRetorno = is_null($medico) ? Response::HTTP_NO_CONTENT : 200; //you can use ternary way or using "if" just like commented below 
+    // $codigoRetorno = 200;
+    // if (is_null($medico)) {
+    //   $codigoRetorno = Response :: HTTP_NO_CONTENT;
+    // }
+    return new JsonResponse($medico, $codigoRetorno);
   }
 
   /**
@@ -78,25 +85,35 @@ class MedicosController extends AbstractController
    */
   public function atualiza(int $id, Request $request): Response
   { 
-      $corpoRequisicao = $request->getContent();
-      $dadosEmJson = json_decode($corpoRequisicao);
-      
-      $medicoEnviado = new Medico();
-      $medicoEnviado->crm = $dadosEmJson->crm;
-      $medicoEnviado->nome = $dadosEmJson->nome;
+    $corpoRequisicao = $request->getContent();
+    $medicoEnviado = $this->medicoFactory->criarMedico($corpoRequisicao);
 
-      $repositorioDeMedicos = $this->doctrine->getRepository(Medico::class);
-      $medicoExistente = $repositorioDeMedicos->find($id);
-      if(is_null($medicoExistente)){
-        return new Response (Response::HTTP_NOT_FOUND);
-      }
+    $medicoExistente = $this->buscaMedico($id);
 
-      $medicoExistente->crm = $medicoEnviado->crm;
-      $medicoExistente->nome = $medicoEnviado->nome;
+    // $repositorioDeMedicos = $this->doctrine->getRepository(Medico::class);
+    // $medicoExistente = $repositorioDeMedicos->find($id);
+    if(is_null($medicoExistente)){
+      return new Response (Response::HTTP_NOT_FOUND);
+    }
 
-      $this->entityManager->flush();
+    $medicoExistente->crm = $medicoEnviado->crm;
+    $medicoExistente->nome = $medicoEnviado->nome;
 
-      return new JsonResponse($medicoExistente);
+    $this->entityManager->flush();
+
+    return new JsonResponse($medicoExistente);
+  }
+
+  /**
+   * @param int $id
+   * @return object|null
+   */
+  public function buscaMedico(int $id)
+  {
+    $repositorioDeMedicos = $this->doctrine->getRepository(Medico::class);
+    $medico = $repositorioDeMedicos->find($id);
+
+    return $medico;
   }
 }
 ?>
