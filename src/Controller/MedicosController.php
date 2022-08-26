@@ -49,7 +49,7 @@ class MedicosController extends AbstractController
     $medico = $this->medicoFactory->criarMedico($corpoRequisicao);
     
     $this->entityManager->persist($medico);
-    $this->entityManager->flush();
+    $this->entityManager->flush();              //entitymanager and flush sends what you want to do to the database
     // does a lot of database operations
     
     return new JsonResponse($medico);
@@ -90,8 +90,6 @@ class MedicosController extends AbstractController
 
     $medicoExistente = $this->buscaMedico($id);
 
-    // $repositorioDeMedicos = $this->doctrine->getRepository(Medico::class);
-    // $medicoExistente = $repositorioDeMedicos->find($id);
     if(is_null($medicoExistente)){
       return new Response (Response::HTTP_NOT_FOUND);
     }
@@ -103,6 +101,20 @@ class MedicosController extends AbstractController
 
     return new JsonResponse($medicoExistente);
   }
+
+
+  /**
+   * @Route("/medicos/{id}", methods={"DELETE"})
+   */
+  public function remove(int $id): Response
+  {
+    $medico = $this->buscaMedico($id);
+    $this->entityManager->remove($medico);
+    $this->entityManager->flush();
+
+    return new Response('', Response::HTTP_NO_CONTENT);
+  }
+
 
   /**
    * @param int $id
